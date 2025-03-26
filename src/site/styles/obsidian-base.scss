@@ -4158,6 +4158,9 @@ body {
     width: var(--icon-size);
     stroke-width: var(--icon-stroke);
   }
+  .notelink svg.svg-icon {
+    width: 0;
+  }
   /* Parent container of button rows */
   .nav-buttons-container,
   .view-actions,
