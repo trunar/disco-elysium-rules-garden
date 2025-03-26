@@ -4153,6 +4153,9 @@ body {
     padding-right: 5px;
   }
   /* Consistency for hover states across all icon buttons */
+  .notelink svg.svg-icon {
+    width: 0;
+  }
   svg.svg-icon {
     height: var(--icon-size);
     width: var(--icon-size);
