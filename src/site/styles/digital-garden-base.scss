@@ -396,6 +396,7 @@ ul.task-list {
     }
     svg {
         flex-shrink: 0;
+	width: 0;
     }
 }
 
@@ -416,10 +417,13 @@ ul.task-list {
     a {
         color: var(--text-accent);
     }
-
+    svg {
+	width: 0;
+    }
     color: var(--text-accent);
     background-color: var(--background-primary);
     transform: translateX(10px);
+
 }
 
 .fullpage-overlay {
