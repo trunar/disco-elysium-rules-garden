@@ -1,13 +1,285 @@
+/* Elysian-inspired Digital Garden styling.
+   The upstream Elysian theme stylesheet is loaded by get-theme.js to provide
+   the original embedded OFL fonts; these overrides adapt its Obsidian UI styles
+   to the garden's rendered HTML. */
+
+$elysian-orange: #e34521;
+$elysian-blue: #5cc1d7;
+$elysian-purple: #7556cf;
+$elysian-green: #81b567;
+$elysian-yellow: #e3b734;
+
 body {
-    /***
-      ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)
-      IT WILL TAKE PRECEDENCE OVER THE STYLING IN THE STYLE.CSS FILE.
-   ***/
-    //  background-color: white;
-    //  .content {
-    //   font-size: 14px;
-    //  }
-    //  h1 {
-    //   color: black;
-    //  }
+  --elysian-orange: #{$elysian-orange};
+  --elysian-blue: #{$elysian-blue};
+  --elysian-purple: #{$elysian-purple};
+  --elysian-green: #{$elysian-green};
+  --elysian-yellow: #{$elysian-yellow};
+  --file-margins: clamp(18px, 4vw, 56px);
+  --text-selection: #5cc1d730;
+  --link-color: var(--elysian-orange);
+  --link-color-hover: var(--elysian-purple);
+  --link-decoration: none;
+  --link-decoration-hover: underline;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: auto;
+  height: auto;
+  min-height: 100vh;
+  user-select: text;
+  -webkit-user-select: text;
+  font-family: "Libre Baskerville", Georgia, serif;
+  background: var(--background-primary);
+  color: var(--text-normal);
+}
+
+.theme-dark {
+  --background-primary: #0b0b0b;
+  --background-secondary: #0b0b0b;
+  --background-primary-alt: #202020;
+  --background-secondary-alt: #202020;
+  --text-normal: #d1d6c0;
+  --text-muted: #a4aa98;
+  --text-faint: #858b7c;
+  --text-accent: #e34521;
+  --text-accent-hover: #ffffff;
+  --background-modifier-border: #343434;
+  --code-background: #202020;
+  --bold-color: #5cc1d7;
+  --text-selection: #5cc1d730;
+  --background-modifier-hover: #ffffff12;
+}
+
+.theme-light {
+  --background-primary: #f5f5f5;
+  --background-secondary: #f5f5f5;
+  --background-primary-alt: #e9e9e9;
+  --background-secondary-alt: #e9e9e9;
+  --text-normal: #616570;
+  --text-muted: #616570;
+  --text-faint: #777b85;
+  --text-accent: #e34521;
+  --text-accent-hover: #7556cf;
+  --background-modifier-border: #d5d6d8;
+  --code-background: #d0d0d080;
+  --bold-color: #7556cf;
+  --text-selection: #7556cf30;
+  --background-modifier-hover: #0000000c;
+}
+
+body,
+button,
+input,
+.navbar,
+.filetree-sidebar,
+.sidebar,
+.search-container {
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+}
+
+.content {
+  max-width: 760px;
+  margin: 96px auto 72px;
+  padding: 0 clamp(18px, 4vw, 48px);
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.content > header > h1 {
+  display: table;
+  max-width: 100%;
+  margin: 0 0 0.6em;
+  padding: 0.06em 0.35em 0.12em;
+  background: #f5f5f5;
+  color: #0b0b0b;
+  font-family: "Sans Condensed Black", "Arial Narrow", Impact, sans-serif;
+  font-size: clamp(2rem, 6vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.theme-light .content > header > h1 {
+  background: #495050;
+  color: #f5f5f5;
+  font-family: "Roboto Light", "Arial", sans-serif;
+  font-weight: 300;
+}
+
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  margin-top: 1.8em;
+  line-height: 1.25;
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+}
+
+.content h2 { color: var(--elysian-orange); }
+.content h3 { color: var(--elysian-blue); }
+.content h4 { color: var(--elysian-green); }
+.content h5 { color: var(--elysian-yellow); }
+.content h6 { color: var(--elysian-purple); }
+
+.content a,
+.navbar a,
+.filetree-sidebar a,
+.sidebar a {
+  color: var(--text-accent);
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+
+.content a:hover,
+.navbar a:hover,
+.filetree-sidebar a:hover,
+.sidebar a:hover {
+  color: var(--text-accent-hover);
+  text-decoration: underline;
+}
+
+.content a.external-link {
+  color: var(--elysian-green);
+}
+
+.content strong,
+.content b {
+  color: var(--bold-color);
+}
+
+.content em strong,
+.content strong em {
+  color: var(--elysian-yellow);
+}
+
+.content mark {
+  background: #12ffa050;
+  color: inherit;
+}
+
+.content :not(pre) > code {
+  padding: 0.12em 0.35em;
+  background: var(--code-background);
+  color: var(--elysian-orange);
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+.content pre,
+.content pre[class*="language-"] {
+  overflow-x: auto;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 1px;
+  background: var(--background-primary-alt);
+  padding: 1em;
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+}
+
+.content blockquote {
+  margin: 1.5em 0;
+  border-left: 3px solid var(--elysian-blue);
+  background: transparent;
+  padding: 0.2em 1em;
+  color: var(--text-muted);
+}
+
+.content hr {
+  border: 0;
+  border-top: 1px solid var(--background-modifier-border);
+  margin: 2em 0;
+}
+
+.content ul,
+.content ol {
+  padding-left: 1.5em;
+}
+
+.content li::marker {
+  color: var(--elysian-orange);
+}
+
+.content table {
+  border-collapse: collapse;
+  font-size: 0.92em;
+}
+
+.content th,
+.content td {
+  border: 1px solid var(--background-modifier-border);
+  padding: 0.45em 0.65em;
+}
+
+.content th {
+  color: var(--elysian-blue);
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+  text-align: left;
+}
+
+.navbar,
+.filetree-sidebar {
+  background: var(--background-primary);
+  color: var(--text-normal);
+  border-bottom: 1px solid var(--background-modifier-border);
+  font-size: 0.9rem;
+}
+
+.navbar h1,
+.filetree-sidebar h1 {
+  color: var(--text-normal);
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+  font-size: 1rem;
+  letter-spacing: 0.025em;
+}
+
+.search-button,
+.search-box,
+#search-results .searchresult,
+.toc,
+.backlinks,
+#link-graph {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 1px;
+  background: var(--background-primary-alt);
+  color: var(--text-normal);
+}
+
+.callout {
+  border-left: 3px solid var(--elysian-blue);
+  border-radius: 1px;
+  background: var(--background-primary-alt);
+  color: var(--text-normal);
+  font-family: "Libre Baskerville", Georgia, serif;
+}
+
+.callout-title,
+.callout-title-inner {
+  color: var(--elysian-blue);
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+}
+
+.timestamps,
+.header-tags,
+.sidebar,
+.graph-title,
+.backlink-title,
+.toc-title {
+  font-family: "IBM Plex Mono", "Courier New", monospace;
+}
+
+::selection {
+  background: var(--text-selection);
+}
+
+@media (max-width: 800px) {
+  .content {
+    margin-top: 78px;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+  }
 }
