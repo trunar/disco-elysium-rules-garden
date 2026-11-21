@@ -29,7 +29,7 @@ async function getTheme() {
       });
     } catch {}
     let skippedFirstComment = false;
-    const data = res.data.replace(themeCommentRegex, (match) => {
+    let data = res.data.replace(themeCommentRegex, (match) => {
       if (skippedFirstComment) {
         return "";
       } else {
@@ -37,6 +37,12 @@ async function getTheme() {
         return match;
       }
     });
+    // Obsidian uses `data:@file/...` for embedded theme assets. Browsers need
+    // standard media types in data URLs for the theme's fonts and textures.
+    data = data
+      .replace(/data:@file\/woff2;base64,/g, "data:font/woff2;base64,")
+      .replace(/data:@file\/x-font-ttf;base64,/g, "data:font/ttf;base64,")
+      .replace(/data:@file\/png;base64,/g, "data:image/png;base64,");
     const hashSum = crypto.createHash("sha256");
     hashSum.update(data);
     const hex = hashSum.digest("hex");

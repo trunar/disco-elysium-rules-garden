@@ -27,11 +27,36 @@ body {
   width: auto;
   height: auto;
   min-height: 100vh;
+  isolation: isolate;
   user-select: text;
   -webkit-user-select: text;
   font-family: "Libre Baskerville", Georgia, serif;
-  background: var(--background-primary);
+  background-color: var(--background-primary);
+  background-image: var(--leftMarker), var(--scratchTexture), var(--rightMarker);
+  background-position: top left 1vw, top left, top right 1vw;
+  background-size: var(--left-size) auto, 100% auto, var(--right-size) auto;
+  background-repeat: repeat-y;
   color: var(--text-normal);
+}
+
+/* Elysian's low-contrast static artwork, adapted from the Obsidian canvas
+   selector to the full-page garden. Keep content above it and the image subtle. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10px;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--static-background);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.17;
+  filter: blur(10px);
+}
+
+.theme-light::before {
+  opacity: 0.08;
 }
 
 .theme-dark {
@@ -116,15 +141,10 @@ input,
 .content h5,
 .content h6 {
   margin-top: 1.8em;
-  line-height: 1.25;
-  font-family: "IBM Plex Mono", "Courier New", monospace;
+  line-height: 1.3;
+  color: inherit;
+  font-family: "Libre Baskerville", Georgia, serif;
 }
-
-.content h2 { color: var(--elysian-orange); }
-.content h3 { color: var(--elysian-blue); }
-.content h4 { color: var(--elysian-green); }
-.content h5 { color: var(--elysian-yellow); }
-.content h6 { color: var(--elysian-purple); }
 
 .content a,
 .navbar a,
@@ -145,6 +165,16 @@ input,
 
 .content a.external-link {
   color: var(--elysian-green);
+}
+
+.content a.external-link:hover {
+  color: #98c684;
+}
+
+.content a.is-unresolved {
+  opacity: 0.7;
+  text-decoration: underline dotted;
+  text-decoration-color: #e3452180;
 }
 
 .content strong,
@@ -199,8 +229,39 @@ input,
   padding-left: 1.5em;
 }
 
-.content li::marker {
-  color: var(--elysian-orange);
+.content ul {
+  list-style: none;
+}
+
+.content ul > li {
+  position: relative;
+}
+
+.content ul > li::before {
+  content: "-";
+  position: absolute;
+  left: -1.15em;
+  color: var(--text-normal);
+}
+
+.content ol > li::marker {
+  color: var(--text-normal);
+}
+
+.content input[type="checkbox"] {
+  appearance: none;
+  width: 0.9em;
+  height: 0.9em;
+  margin: 0 0.35em 0 0;
+  border: 1px solid var(--text-muted);
+  border-radius: 1px;
+  vertical-align: -0.05em;
+}
+
+.content input[type="checkbox"]:checked {
+  border-color: var(--elysian-green);
+  background: var(--elysian-green);
+  box-shadow: inset 0 0 0 2px var(--background-primary);
 }
 
 .content table {
@@ -215,9 +276,35 @@ input,
 }
 
 .content th {
-  color: var(--elysian-blue);
+  color: var(--text-muted);
   font-family: "IBM Plex Mono", "Courier New", monospace;
   text-align: left;
+}
+
+.content .transclusion,
+.content .markdown-embed {
+  position: relative;
+  margin: 1.5em 0;
+  border-left: 2px solid var(--elysian-orange);
+  padding: 0.65em 1em;
+}
+
+.content .markdown-embed-title {
+  display: table;
+  margin: 0 0 0.6em;
+  padding: 0 0.5em;
+  background: #f5f5f5;
+  color: #0b0b0b;
+  font-family: "Sans Condensed Black", "Arial Narrow", Impact, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.theme-light .content .markdown-embed-title {
+  background: #495050;
+  color: #f5f5f5;
+  font-family: "Roboto Light", Arial, sans-serif;
+  font-weight: 300;
 }
 
 .navbar,
@@ -258,9 +345,43 @@ input,
 
 .callout-title,
 .callout-title-inner {
-  color: var(--elysian-blue);
+  color: var(--callout-color-css, var(--elysian-blue));
   font-family: "IBM Plex Mono", "Courier New", monospace;
 }
+
+.callout {
+  --callout-border-width: 0;
+  --callout-border-opacity: 0;
+  border-left-color: var(--callout-color-css, var(--elysian-blue));
+  background: color-mix(in srgb, var(--callout-color-css, #5cc1d7) 10%, var(--background-primary));
+}
+
+.callout[data-callout="abstract"],
+.callout[data-callout="summary"],
+.callout[data-callout="tldr"] { --callout-color-css: #5cc1d7; }
+.callout[data-callout="info"],
+.callout[data-callout="todo"] { --callout-color-css: #5cc1d7; }
+.callout[data-callout="tip"],
+.callout[data-callout="hint"],
+.callout[data-callout="important"],
+.callout[data-callout="success"],
+.callout[data-callout="check"],
+.callout[data-callout="done"] { --callout-color-css: #81b567; }
+.callout[data-callout="question"],
+.callout[data-callout="help"],
+.callout[data-callout="faq"] { --callout-color-css: #7556cf; }
+.callout[data-callout="warning"],
+.callout[data-callout="caution"],
+.callout[data-callout="attention"] { --callout-color-css: #e3b734; }
+.callout[data-callout="failure"],
+.callout[data-callout="fail"],
+.callout[data-callout="missing"],
+.callout[data-callout="danger"],
+.callout[data-callout="error"],
+.callout[data-callout="bug"] { --callout-color-css: #cb476a; }
+.callout[data-callout="example"] { --callout-color-css: #7556cf; }
+.callout[data-callout="quote"],
+.callout[data-callout="cite"] { --callout-color-css: #a4aa98; }
 
 .timestamps,
 .header-tags,
@@ -271,11 +392,35 @@ input,
   font-family: "IBM Plex Mono", "Courier New", monospace;
 }
 
+/* Prism markup mirrors Elysian's syntax palette. */
+.content .token.comment,
+.content .token.prolog,
+.content .token.doctype,
+.content .token.cdata { color: #666; }
+.content .token.keyword,
+.content .token.selector,
+.content .token.important { color: #cb476a; }
+.content .token.string,
+.content .token.attr-value { color: #81b567; }
+.content .token.function,
+.content .token.class-name { color: #5cc1d7; }
+.content .token.number,
+.content .token.boolean,
+.content .token.constant { color: #e3b734; }
+.content .token.operator,
+.content .token.punctuation { color: var(--text-muted); }
+
 ::selection {
   background: var(--text-selection);
 }
 
 @media (max-width: 800px) {
+  body {
+    --left-size: max(2vw, 0.7em);
+    --right-size: max(2vw, 0.7em);
+    --left-padding: max(6vw, 2em);
+    --right-padding: max(4vw, 2em);
+  }
   .content {
     margin-top: 78px;
     padding-right: 20px;
